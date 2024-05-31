@@ -61,7 +61,7 @@ export default {
   },
   computed: {
     searchEnabled() {
-      return this.selectedColors && this.selectedTribe
+      return this.selectedColors?.length > 0 && this.selectedTribe
     },
   },
   methods: {

@@ -66,6 +66,10 @@ export default {
                 const colors = values.map((v, i) => [v, text[i]]).filter(([v, ]) => v).map(([, c]) => c)
                 const colorString = colors.join('')
                 
+                if (colorString.length === 0) {
+                    this.$emit('update:modelValue', "")
+                    return
+                }
 
                 const query = (this.variant === "id") ? "id:" + colorString : "c=" + colorString
                 this.$emit('update:modelValue', query)
