@@ -9,30 +9,37 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
 </script>
 
 <template>
-  <header class="max-w-sm m-auto flex flex-col gap-2">
-    <Dropdown v-model="selectedTribe" :options="tribeList" optionLabel="tribe" filter placeholder="Select a Tribe" class="w-full" />
-  
-    <ColorPicker v-model="selectedColors" />
+  <div class="max-w-sm m-auto flex flex-col gap-2">
+    <header class="flex flex-col gap-2">
+      <Dropdown v-model="selectedTribe" :options="tribeList" optionLabel="tribe" filter placeholder="Select a Tribe"
+        class="w-full" />
 
-    <div class="flex items-center gap-2">
-      <Checkbox v-model="anthem" :binary="true"/> 
-      <div>Anthem</div>
-    </div>
+      <ColorPicker v-model="selectedColors" />
 
-    <div class="flex items-center gap-2">
-      <div>Price</div> 
-      <SelectButton v-model="price" :options="priceOptions" aria-labelledby="basic" />
-    </div>
+      <div class="flex items-center gap-2">
+        <Checkbox v-model="anthem" :binary="true" />
+        <div>Anthem</div>
+      </div>
 
-    <Button label="Search" @click="performQuery" :disabled="!searchEnabled"/>
-  </header>
+      <div class="flex items-center gap-2">
+        <div>Price</div>
+        <SelectButton v-model="price" :options="priceOptions" aria-labelledby="basic" />
+      </div>
 
-  <main class="max-w-sm m-auto flex flex-wrap justify-between gap-2">
-    <div v-for="card in results" :key="card.id">
-      <img v-if="card?.image_uris?.small" :src="card?.image_uris?.small" :alt="card.name">
-      <img v-else-if="card?.card_faces[0]?.image_uris?.small" :src="card?.card_faces[0]?.image_uris?.small" :alt="card.name">
-    </div>
-  </main>
+      <Button label="Search" @click="performQuery" :disabled="!searchEnabled" />
+    </header>
+
+    <main class="max-w-sm m-auto flex flex-wrap justify-between gap-2">
+      <div v-for="card in results" :key="card.id"
+        :data-image="card?.image_uris?.normal ?? card?.card_faces?.[0]?.image_uris?.normal" @click="displayLarge">
+        <img :src="card?.image_uris?.small ?? card?.card_faces?.[0]?.image_uris?.small" :alt="card.name">
+      </div>
+    </main>
+
+    <dialog ref="largeImageDialog" @click="$refs.largeImageDialog.close()">
+      <img :src="largeImage" alt="">
+    </dialog>
+  </div>
 </template>
 
 <script>
@@ -52,11 +59,12 @@ export default {
     return {
       selectedTribe: undefined,
       selectedColors: undefined,
-      tribeList: tribes.map((t, i) => ({ tribe: t, plural: tribesPlural[i]})),
+      tribeList: tribes.map((t, i) => ({ tribe: t, plural: tribesPlural[i] })),
       anthem: false,
       price: "Any",
       priceOptions: ["Bulk", "Cheap", "Any"],
       results: [],
+      largeImage: "",
     }
   },
   computed: {
@@ -65,6 +73,11 @@ export default {
     },
   },
   methods: {
+    async displayLarge(event) {
+      this.largeImage = event.currentTarget.dataset.image
+      this.$refs.largeImageDialog.showModal()
+
+    },
     async performQuery() {
       if (!this.searchEnabled) {
         return
@@ -73,7 +86,7 @@ export default {
       const anthem1 = `o:"other ${this.selectedTribe?.plural}"`
       const anthem2 = `o:"each other ${this.selectedTribe?.tribe}"`
       const anthem = this.anthem ? `(${anthem1} or ${anthem2})` : ""
-      
+
       const price = priceToQuery(this.price)
 
       const query = `f:commander ${this.selectedColors} t:${this.selectedTribe.tribe} ${anthem} ${price}`
