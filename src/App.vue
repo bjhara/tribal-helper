@@ -9,7 +9,7 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
 </script>
 
 <template>
-  <div class="container m-auto p-2 flex flex-col gap-2">
+  <div class="container m-auto flex flex-col gap-2 p-2">
     <header class="flex flex-col gap-2">
 
       <nav class="flex flex-row-reverse">
@@ -36,7 +36,7 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
       <Button label="Search" @click="performQuery" :disabled="!searchEnabled" />
     </header>
 
-    <main class="w-full grid grid-cols-[repeat(auto-fill,minmax(146px,_1fr))] m-auto gap-2">
+    <main class="m-auto grid w-full grid-cols-[repeat(auto-fill,minmax(146px,_1fr))] gap-2">
       <div v-for="card in results" :key="card.id" class="justify-self-center"
         :data-image="card?.image_uris?.normal ?? card?.card_faces?.[0]?.image_uris?.normal" @click="displayLarge">
         <img :src="card?.image_uris?.small ?? card?.card_faces?.[0]?.image_uris?.small" :alt="card.name">
@@ -44,7 +44,7 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
     </main>
 
     <dialog ref="largeImageDialog" @click="$refs.largeImageDialog.close()">
-      <div class="p-4 flex flex-col gap-2">
+      <div class="flex flex-col gap-2 p-4">
         <div class="flex flex-row-reverse gap-2">
           <Button icon="pi pi-bookmark" class="mr-2" severity="secondary" />
         </div>
