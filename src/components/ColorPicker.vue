@@ -4,52 +4,83 @@ import RadioButton from 'primevue/radiobutton'
 </script>
 
 <template>
-    <div class="flex flex-wrap items-center gap-2.5">
-        <div class="flex gap-1">
-            <i class="ms ms-w"></i>
-            <Checkbox v-model="white" :binary="true" />
-        </div>
-
-        <div class="flex gap-1">
-            <i class="ms ms-u"></i>
-            <Checkbox v-model="blue" :binary="true" />
-        </div>
-
-        <div class="flex gap-1">
-            <i class="ms ms-b"></i>
-            <Checkbox v-model="black" :binary="true" />
-        </div>
-
-        <div class="flex gap-1">
-            <i class="ms ms-r"></i>
-            <Checkbox v-model="red" :binary="true" />
-        </div>
-
-        <div class="flex gap-1">
-            <i class="ms ms-g"></i>
-            <Checkbox v-model="green" :binary="true" />
-        </div>
-
-        <div class="flex gap-1">
-            <i class="ms ms-c"></i>
-            <Checkbox v-model="colorless" :binary="true" />
-        </div>
-
-        <div class="flex items-center gap-1">
-            <RadioButton v-model="variant" name="variant" value="id" />
-            <div>Id</div>
-        </div>
-
-        <div class="flex items-center gap-1">
-            <RadioButton v-model="variant" name="varaint" value="eq" />
-            <div>Eq</div>
-        </div>
+  <div class="flex flex-wrap items-center gap-2.5">
+    <div class="flex gap-1">
+      <i class="ms ms-w" />
+      <Checkbox
+        v-model="white"
+        :binary="true"
+      />
     </div>
+
+    <div class="flex gap-1">
+      <i class="ms ms-u" />
+      <Checkbox
+        v-model="blue"
+        :binary="true"
+      />
+    </div>
+
+    <div class="flex gap-1">
+      <i class="ms ms-b" />
+      <Checkbox
+        v-model="black"
+        :binary="true"
+      />
+    </div>
+
+    <div class="flex gap-1">
+      <i class="ms ms-r" />
+      <Checkbox
+        v-model="red"
+        :binary="true"
+      />
+    </div>
+
+    <div class="flex gap-1">
+      <i class="ms ms-g" />
+      <Checkbox
+        v-model="green"
+        :binary="true"
+      />
+    </div>
+
+    <div class="flex gap-1">
+      <i class="ms ms-c" />
+      <Checkbox
+        v-model="colorless"
+        :binary="true"
+      />
+    </div>
+
+    <div class="flex items-center gap-1">
+      <RadioButton
+        v-model="variant"
+        name="variant"
+        value="id"
+      />
+      <div>Id</div>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <RadioButton
+        v-model="variant"
+        name="varaint"
+        value="eq"
+      />
+      <div>Eq</div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    props: ['modelValue'],
+    props: {
+        modelValue: {
+            type: String,
+            default: "",
+        },
+    },
     emits: ['update:modelValue'],
     data() {
         return {

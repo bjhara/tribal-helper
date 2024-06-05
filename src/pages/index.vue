@@ -9,50 +9,95 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
 </script>
 
 <template>
-    <div class="container m-auto flex flex-col gap-2 p-2">
-        <header class="flex flex-col gap-2">
+  <div class="container m-auto flex flex-col gap-2 p-2">
+    <header class="flex flex-col gap-2">
+      <nav class="flex flex-row-reverse">
+        <Button
+          icon="pi pi-search"
+          class="mr-2"
+          severity="secondary"
+        />
+        <Button
+          icon="pi pi-list"
+          class="mr-2"
+          severity="secondary"
+        />
+        <Button
+          icon="pi pi-bookmark"
+          class="mr-2"
+          severity="secondary"
+        />
+      </nav>
 
-            <nav class="flex flex-row-reverse">
-                <Button icon="pi pi-search" class="mr-2" severity="secondary" />
-                <Button icon="pi pi-list" class="mr-2" severity="secondary" />
-                <Button icon="pi pi-bookmark" class="mr-2" severity="secondary" />
-            </nav>
+      <Dropdown
+        v-model="selectedTribe"
+        :options="tribeList"
+        option-label="tribe"
+        filter
+        placeholder="Select a Tribe"
+        class="w-full"
+      />
 
-            <Dropdown v-model="selectedTribe" :options="tribeList" optionLabel="tribe" filter
-                placeholder="Select a Tribe" class="w-full" />
+      <ColorPicker v-model="selectedColors" />
 
-            <ColorPicker v-model="selectedColors" />
+      <div class="flex items-center gap-2">
+        <Checkbox
+          v-model="anthem"
+          :binary="true"
+        />
+        <div>Anthem</div>
+      </div>
 
-            <div class="flex items-center gap-2">
-                <Checkbox v-model="anthem" :binary="true" />
-                <div>Anthem</div>
-            </div>
+      <div class="flex items-center gap-2">
+        <div>Price:</div>
+        <SelectButton
+          v-model="price"
+          :options="priceOptions"
+          aria-labelledby="basic"
+        />
+      </div>
 
-            <div class="flex items-center gap-2">
-                <div>Price:</div>
-                <SelectButton v-model="price" :options="priceOptions" aria-labelledby="basic" />
-            </div>
+      <Button
+        label="Search"
+        :disabled="!searchEnabled"
+        @click="performQuery"
+      />
+    </header>
 
-            <Button label="Search" @click="performQuery" :disabled="!searchEnabled" />
-        </header>
+    <main class="m-auto grid w-full grid-cols-[repeat(auto-fill,minmax(146px,_1fr))] gap-2">
+      <div
+        v-for="card in results"
+        :key="card.id"
+        class="justify-self-center"
+        :data-image="card?.image_uris?.normal ?? card?.card_faces?.[0]?.image_uris?.normal"
+        @click="displayLarge"
+      >
+        <img
+          :src="card?.image_uris?.small ?? card?.card_faces?.[0]?.image_uris?.small"
+          :alt="card.name"
+        >
+      </div>
+    </main>
 
-        <main class="m-auto grid w-full grid-cols-[repeat(auto-fill,minmax(146px,_1fr))] gap-2">
-            <div v-for="card in results" :key="card.id" class="justify-self-center"
-                :data-image="card?.image_uris?.normal ?? card?.card_faces?.[0]?.image_uris?.normal"
-                @click="displayLarge">
-                <img :src="card?.image_uris?.small ?? card?.card_faces?.[0]?.image_uris?.small" :alt="card.name">
-            </div>
-        </main>
-
-        <dialog ref="largeImageDialog" @click="$refs.largeImageDialog.close()">
-            <div class="flex flex-col gap-2 p-4">
-                <div class="flex flex-row-reverse gap-2">
-                    <Button icon="pi pi-bookmark" class="mr-2" severity="secondary" />
-                </div>
-                <img :src="largeImage" alt="">
-            </div>
-        </dialog>
-    </div>
+    <dialog
+      ref="largeImageDialog"
+      @click="$refs.largeImageDialog.close()"
+    >
+      <div class="flex flex-col gap-2 p-4">
+        <div class="flex flex-row-reverse gap-2">
+          <Button
+            icon="pi pi-bookmark"
+            class="mr-2"
+            severity="secondary"
+          />
+        </div>
+        <img
+          :src="largeImage"
+          alt=""
+        >
+      </div>
+    </dialog>
+  </div>
 </template>
 
 <script>
