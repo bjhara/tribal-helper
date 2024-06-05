@@ -64,7 +64,7 @@ export default {
     },
     created() {
         this.$watch(
-            (vm) => (vm.white, vm.blue, vm.black, vm.red, vm.green, vm.colorless, vm.variant, Date.now()),
+            (vm) => [vm.white, vm.blue, vm.black, vm.red, vm.green, vm.colorless, vm.variant, Date.now()],
             function () {
                 const values = [this.white, this.blue, this.black, this.red, this.green, this.colorless]
                 const text = ["w", "u", "b", "r", "g", "c"]
