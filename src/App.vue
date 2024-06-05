@@ -11,6 +11,7 @@ import Button from 'primevue/button'
           icon="pi pi-search"
           class="mr-2"
           severity="secondary"
+          aria-label="Search"
         />
       </RouterLink>
       <RouterLink to="/list">
@@ -18,6 +19,7 @@ import Button from 'primevue/button'
           icon="pi pi-list"
           class="mr-2"
           severity="secondary"
+          aria-label="Show list"
         />
       </RouterLink>
       <RouterLink to="/saved">
@@ -25,6 +27,7 @@ import Button from 'primevue/button'
           icon="pi pi-bookmark"
           class="mr-2"
           severity="secondary"
+          aria-label="Saved bookmarks"
         />
       </RouterLink>
     </nav>

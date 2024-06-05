@@ -25,6 +25,7 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
       <Checkbox
         v-model="anthem"
         :binary="true"
+        aria-label="anthem"
       />
       <div>Anthem</div>
     </div>

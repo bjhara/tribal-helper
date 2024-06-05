@@ -10,6 +10,7 @@ import RadioButton from 'primevue/radiobutton'
       <Checkbox
         v-model="white"
         :binary="true"
+        aria-label="white mana"
       />
     </div>
 
@@ -18,6 +19,7 @@ import RadioButton from 'primevue/radiobutton'
       <Checkbox
         v-model="blue"
         :binary="true"
+        aria-label="blue mana"
       />
     </div>
 
@@ -26,6 +28,7 @@ import RadioButton from 'primevue/radiobutton'
       <Checkbox
         v-model="black"
         :binary="true"
+        aria-label="black mana"
       />
     </div>
 
@@ -34,6 +37,7 @@ import RadioButton from 'primevue/radiobutton'
       <Checkbox
         v-model="red"
         :binary="true"
+        aria-label="red mana"
       />
     </div>
 
@@ -42,6 +46,7 @@ import RadioButton from 'primevue/radiobutton'
       <Checkbox
         v-model="green"
         :binary="true"
+        aria-label="green mana"
       />
     </div>
 
@@ -50,6 +55,7 @@ import RadioButton from 'primevue/radiobutton'
       <Checkbox
         v-model="colorless"
         :binary="true"
+        aria-label="colorless mana"
       />
     </div>
 
@@ -58,6 +64,7 @@ import RadioButton from 'primevue/radiobutton'
         v-model="variant"
         name="variant"
         value="id"
+        aria-label="identity"
       />
       <div>Id</div>
     </div>
@@ -67,6 +74,7 @@ import RadioButton from 'primevue/radiobutton'
         v-model="variant"
         name="varaint"
         value="eq"
+        aria-label="equality"
       />
       <div>Eq</div>
     </div>
