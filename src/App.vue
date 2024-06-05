@@ -9,7 +9,7 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
 </script>
 
 <template>
-  <div class="container m-auto flex flex-col gap-2">
+  <div class="container m-auto flex flex-col gap-2 my-2">
     <header class="flex flex-col gap-2">
       <Dropdown v-model="selectedTribe" :options="tribeList" optionLabel="tribe" filter placeholder="Select a Tribe"
         class="w-full" />
@@ -22,14 +22,14 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
       </div>
 
       <div class="flex items-center gap-2">
-        <div>Price</div>
+        <div>Price:</div>
         <SelectButton v-model="price" :options="priceOptions" aria-labelledby="basic" />
       </div>
 
       <Button label="Search" @click="performQuery" :disabled="!searchEnabled" />
     </header>
 
-    <main class="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 m-auto gap-2">
+    <main class="w-full grid grid-cols-[repeat(auto-fill,minmax(146px,_1fr))] m-auto gap-2">
       <div v-for="card in results" :key="card.id" class="justify-self-center"
         :data-image="card?.image_uris?.normal ?? card?.card_faces?.[0]?.image_uris?.normal" @click="displayLarge">
         <img :src="card?.image_uris?.small ?? card?.card_faces?.[0]?.image_uris?.small" :alt="card.name">
@@ -93,7 +93,7 @@ export default {
       const result = await Scryfall.get(query)
 
 
-      this.results = (result != null) ? result.data.slice(0, 10) : []
+      this.results = (result != null) ? result /* result.slice(0, 10) */ : []
     },
   }
 }
