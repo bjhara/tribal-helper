@@ -9,8 +9,15 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
 </script>
 
 <template>
-  <div class="container m-auto flex flex-col gap-2 my-2">
+  <div class="container m-auto p-2 flex flex-col gap-2">
     <header class="flex flex-col gap-2">
+
+      <nav class="flex flex-row-reverse">
+        <Button icon="pi pi-search" class="mr-2" severity="secondary" />
+        <Button icon="pi pi-list" class="mr-2" severity="secondary" />
+        <Button icon="pi pi-bookmark" class="mr-2" severity="secondary" />
+      </nav>
+
       <Dropdown v-model="selectedTribe" :options="tribeList" optionLabel="tribe" filter placeholder="Select a Tribe"
         class="w-full" />
 
@@ -37,7 +44,12 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
     </main>
 
     <dialog ref="largeImageDialog" @click="$refs.largeImageDialog.close()">
-      <img :src="largeImage" alt="">
+      <div class="p-4 flex flex-col gap-2">
+        <div class="flex flex-row-reverse gap-2">
+          <Button icon="pi pi-bookmark" class="mr-2" severity="secondary" />
+        </div>
+        <img :src="largeImage" alt="">
+      </div>
     </dialog>
   </div>
 </template>

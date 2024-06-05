@@ -4,7 +4,7 @@ import RadioButton from 'primevue/radiobutton'
 </script>
 
 <template>
-    <div class="flex flex-wrap items-center gap-3">
+    <div class="flex flex-wrap items-center gap-2.5">
         <div class="flex gap-1">
             <i class="ms ms-w"></i>
             <Checkbox v-model="white" :binary="true" />
