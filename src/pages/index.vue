@@ -55,6 +55,9 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
       @click="displayLarge"
     >
       <img
+        loading="lazy"
+        width="146"
+        height="204"
         :src="card?.image_uris?.small ?? card?.card_faces?.[0]?.image_uris?.small"
         :alt="card.name"
       >
