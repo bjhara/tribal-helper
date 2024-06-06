@@ -116,7 +116,6 @@ export default {
     async displayLarge(event) {
       this.largeImage = event.currentTarget.dataset.image
       this.$refs.largeImageDialog.showModal()
-
     },
     async performQuery() {
       if (!this.searchEnabled) {
@@ -130,10 +129,9 @@ export default {
       const price = priceToQuery(this.searchStore.price)
 
       const query = `f:commander ${this.searchStore.selectedColors} t:${this.searchStore.selectedTribe.tribe} ${anthem} ${price}`
-      const result = await Scryfall.get(query)
+      const results = await Scryfall.get(query)
 
-
-      this.searchStore.results = (result != null) ? result /* result.slice(0, 10) */ : []
+      this.searchStore.results = results ?? []
     },
   }
 }
