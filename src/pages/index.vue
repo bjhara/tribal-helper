@@ -23,11 +23,11 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
 
     <div class="flex items-center gap-2">
       <Checkbox
+        :id="$id('anthem')"
         v-model="anthem"
         :binary="true"
-        aria-label="anthem"
       />
-      <div>Anthem</div>
+      <label :for="$id('anthem')">Anthem</label>
     </div>
 
     <div class="flex items-center gap-2">

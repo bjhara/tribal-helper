@@ -5,8 +5,9 @@ import './assets/css/mana.min.css'
 import { createApp } from 'vue'
 import router from '@/router'
 import PrimeVue from 'primevue/config'
-import Wind from '@/assets/presets/wind';
+import Wind from '@/assets/presets/wind'
 import App from './App.vue'
+import UniqueId from './plugins/vue-unique-id'
 
 const app = createApp(App)
 app.use(router)
@@ -14,4 +15,5 @@ app.use(PrimeVue, {
     unstyled: true,
     pt: Wind
 })
+app.use(UniqueId)
 app.mount('#app')
