@@ -1,5 +1,6 @@
 <script setup>
 import ColorPicker from '@/components/ColorPicker.vue'
+import CardDialog from  '@/components/CardDialog.vue'
 import Button from 'primevue/button'
 import Checkbox from 'primevue/checkbox'
 import Dropdown from 'primevue/dropdown'
@@ -53,7 +54,9 @@ import { useSearchStore } from '@/stores/search'
       v-for="card in searchStore.results"
       :key="card.id"
       class="justify-self-center"
-      :data-image="card?.image_uris?.normal ?? card?.card_faces?.[0]?.image_uris?.normal"
+      :data-id="card?.id"
+      :data-image-normal="card?.image_uris?.normal ?? card?.card_faces?.[0]?.image_uris?.normal"
+      :data-image-small="card?.image_uris?.small ?? card?.card_faces?.[0]?.image_uris?.small"
       @click="displayLarge"
     >
       <img
@@ -66,24 +69,11 @@ import { useSearchStore } from '@/stores/search'
     </div>
   </main>
 
-  <dialog
+  <CardDialog
     ref="largeImageDialog"
-    @click="$refs.largeImageDialog.close()"
-  >
-    <div class="flex flex-col gap-2 p-4">
-      <div class="flex flex-row-reverse gap-2">
-        <Button
-          icon="pi pi-bookmark"
-          class="mr-2"
-          severity="secondary"
-        />
-      </div>
-      <img
-        :src="largeImage"
-        alt=""
-      >
-    </div>
-  </dialog>
+    :card-urls="largeImageUrls"
+    :card-id="largeImageId"
+  />
 </template>
 
 <script>
@@ -103,7 +93,8 @@ export default {
     return {
       tribeList: tribes.map((t, i) => ({ tribe: t, plural: tribesPlural[i] })),
       priceOptions: ["Bulk", "Cheap", "Any"],
-      largeImage: "",
+      largeImageUrls: {},
+      largeImageId: "",
     }
   },
   computed: {
@@ -114,7 +105,8 @@ export default {
   },
   methods: {
     async displayLarge(event) {
-      this.largeImage = event.currentTarget.dataset.image
+      this.largeImageUrls = { small: event.currentTarget.dataset.imageSmall, normal: event.currentTarget.dataset.imageNormal }
+      this.largeImageId = event.currentTarget.dataset.id
       this.$refs.largeImageDialog.showModal()
     },
     async performQuery() {

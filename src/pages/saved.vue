@@ -1,3 +1,0 @@
-<template>
-  saved bookmarks
-</template>

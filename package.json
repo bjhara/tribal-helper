@@ -11,6 +11,7 @@
     "lint": "eslint -c eslint.config.js --fix"
   },
   "dependencies": {
+    "@vueuse/core": "^10.10.0",
     "pinia": "^2.1.7",
     "primeicons": "^7.0.0",
     "primevue": "^3.51.0",

@@ -22,7 +22,7 @@ import Button from 'primevue/button'
           aria-label="Show list"
         />
       </RouterLink>
-      <RouterLink to="/saved">
+      <RouterLink to="/bookmarks">
         <Button
           icon="pi pi-bookmark"
           class="mr-2"
