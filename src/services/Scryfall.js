@@ -17,8 +17,8 @@ async function getMatch(url) {
 }
 
 const Scryfall = {
-    async get(query) {
-        const encodedQuery = encodeURIComponent(query)
+    async get(query, encoded = false) {
+        const encodedQuery = encoded ? query : encodeURIComponent(query)
         const url = `https://api.scryfall.com/cards/search?q=${encodedQuery}&order=eur&dir=desc`
         
         let result = await getMatch(url)
