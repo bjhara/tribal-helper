@@ -93,15 +93,28 @@ export default {
     data() {
         return {
             variant: "id",
-            red: false,
-            green: false,
+            white: false,
             blue: false,
             black: false,
-            white: false,
+            red: false,
+            green: false,
             colorless: false,
         }
     },
     created() {
+        if (this.modelValue.startsWith("c=")) {
+          this.variant = "eq"
+        }
+        else {
+          this.variant = "id"
+        }
+
+        this.white = this.modelValue.includes("w")
+        this.blue = this.modelValue.includes("u")
+        this.blue = this.modelValue.includes("b")
+        this.red = this.modelValue.includes("r")
+        this.green = this.modelValue.includes("g")
+        
         this.$watch(
             (vm) => [vm.white, vm.blue, vm.black, vm.red, vm.green, vm.colorless, vm.variant, Date.now()],
             function () {

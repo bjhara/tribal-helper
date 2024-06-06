@@ -6,12 +6,14 @@ import Dropdown from 'primevue/dropdown'
 import SelectButton from 'primevue/selectbutton'
 import Scryfall from '@/services/Scryfall'
 import { tribes, plural as tribesPlural } from '@/lib/tribes'
+import { mapStores } from 'pinia'
+import { useSearchStore } from '@/stores/search'
 </script>
 
 <template>
   <header class="flex flex-col gap-2">
     <Dropdown
-      v-model="selectedTribe"
+      v-model="searchStore.selectedTribe"
       :options="tribeList"
       option-label="tribe"
       filter
@@ -19,12 +21,12 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
       class="w-full"
     />
 
-    <ColorPicker v-model="selectedColors" />
+    <ColorPicker v-model="searchStore.selectedColors" />
 
     <div class="flex items-center gap-2">
       <Checkbox
         :id="$id('anthem')"
-        v-model="anthem"
+        v-model="searchStore.anthem"
         :binary="true"
       />
       <label :for="$id('anthem')">Anthem</label>
@@ -33,7 +35,7 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
     <div class="flex items-center gap-2">
       <div>Price:</div>
       <SelectButton
-        v-model="price"
+        v-model="searchStore.price"
         :options="priceOptions"
         aria-labelledby="basic"
       />
@@ -48,7 +50,7 @@ import { tribes, plural as tribesPlural } from '@/lib/tribes'
 
   <main class="m-auto grid w-full grid-cols-[repeat(auto-fill,minmax(146px,_1fr))] gap-2">
     <div
-      v-for="card in results"
+      v-for="card in searchStore.results"
       :key="card.id"
       class="justify-self-center"
       :data-image="card?.image_uris?.normal ?? card?.card_faces?.[0]?.image_uris?.normal"
@@ -99,19 +101,15 @@ function priceToQuery(price) {
 export default {
   data() {
     return {
-      selectedTribe: undefined,
-      selectedColors: undefined,
       tribeList: tribes.map((t, i) => ({ tribe: t, plural: tribesPlural[i] })),
-      anthem: false,
-      price: "Any",
       priceOptions: ["Bulk", "Cheap", "Any"],
-      results: [],
       largeImage: "",
     }
   },
   computed: {
+    ...mapStores(useSearchStore),
     searchEnabled() {
-      return this.selectedColors?.length > 0 && this.selectedTribe
+      return this.searchStore.selectedColors?.length > 0 && this.searchStore.selectedTribe
     },
   },
   methods: {
@@ -125,17 +123,17 @@ export default {
         return
       }
 
-      const anthem1 = `o:"other ${this.selectedTribe?.plural}"`
-      const anthem2 = `o:"each other ${this.selectedTribe?.tribe}"`
-      const anthem = this.anthem ? `(${anthem1} or ${anthem2})` : ""
+      const anthem1 = `o:"other ${this.searchStore.selectedTribe?.plural}"`
+      const anthem2 = `o:"each other ${this.searchStore.selectedTribe?.tribe}"`
+      const anthem = this.searchStore.anthem ? `(${anthem1} or ${anthem2})` : ""
 
-      const price = priceToQuery(this.price)
+      const price = priceToQuery(this.searchStore.price)
 
-      const query = `f:commander ${this.selectedColors} t:${this.selectedTribe.tribe} ${anthem} ${price}`
+      const query = `f:commander ${this.searchStore.selectedColors} t:${this.searchStore.selectedTribe.tribe} ${anthem} ${price}`
       const result = await Scryfall.get(query)
 
 
-      this.results = (result != null) ? result /* result.slice(0, 10) */ : []
+      this.searchStore.results = (result != null) ? result /* result.slice(0, 10) */ : []
     },
   }
 }
