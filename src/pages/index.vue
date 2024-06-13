@@ -5,10 +5,11 @@ import Button from 'primevue/button'
 import Checkbox from 'primevue/checkbox'
 import Dropdown from 'primevue/dropdown'
 import SelectButton from 'primevue/selectbutton'
+import Slider from 'primevue/slider'
 import Scryfall from '@/services/Scryfall'
 import { tribes, plural as tribesPlural } from '@/lib/tribes'
 import { mapStores } from 'pinia'
-import { useSearchStore } from '@/stores/search'
+import { useSearchStore, MIN_MANA_VALUE, MAX_MANA_VALUE } from '@/stores/search'
 </script>
 
 <template>
@@ -40,6 +41,21 @@ import { useSearchStore } from '@/stores/search'
         :options="priceOptions"
         aria-labelledby="basic"
       />
+    </div>
+
+    <div class="flex items-center gap-2">
+      <div>MV:</div>
+      <div class="flex items-center gap-4">
+        <div>{{ searchStore.manaValue[0] }}</div>
+        <Slider
+          v-model="searchStore.manaValue"
+          range
+          :min="MIN_MANA_VALUE"
+          :max="MAX_MANA_VALUE"
+          class="w-56"
+        />
+        <div>{{ searchStore.manaValue[1] }}</div>
+      </div>
     </div>
 
     <Button
@@ -88,6 +104,14 @@ function priceToQuery(price) {
   }
 }
 
+function manaValueQuery(manaValue) {
+  if (manaValue[0] === MIN_MANA_VALUE && manaValue[1] === MAX_MANA_VALUE) {
+    return ""
+  }
+
+  return `mv>=${manaValue[0]} mv<=${manaValue[1]}`
+}
+
 export default {
   data() {
     return {
@@ -120,7 +144,10 @@ export default {
 
       const price = priceToQuery(this.searchStore.price)
 
-      const query = `f:commander ${this.searchStore.selectedColors} t:${this.searchStore.selectedTribe.tribe} ${anthem} ${price}`
+
+      const mv = manaValueQuery(this.searchStore.manaValue)
+
+      const query = `f:commander ${this.searchStore.selectedColors} t:${this.searchStore.selectedTribe.tribe} ${anthem} ${price} ${mv}`
       const results = await Scryfall.get(query)
 
       this.searchStore.results = results ?? []
